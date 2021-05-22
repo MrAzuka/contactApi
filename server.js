@@ -2,6 +2,7 @@ const express = require("express")
 require('dotenv').config()
 const {connectDB} = require('./db/connectDB')
 const apiRoutes = require('./routes/contactsRoute')
+const authRoutes = require('./routes/authRoutes')
 
 // Initialise app
 const app = express()
@@ -15,6 +16,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
 // Using Routes
+app.use('/auth', authRoutes)
 app.use(apiRoutes)
 
 // Port Listening
