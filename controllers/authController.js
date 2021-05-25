@@ -6,7 +6,7 @@ require('dotenv').config()
 const {SECRET, EXPIRE_TIME} = process.env
 
 
-exports.signUp = (req,res) => {
+exports.signupUser = (req,res) => {
     // fetch email
     // check if email already exist
     Users.findOne({email: req.body.email}, (err,existingUser) => {
@@ -57,6 +57,38 @@ exports.signUp = (req,res) => {
                     })
                 })
             })
+        })
+    })
+}
+
+exports.loginUser = (req,res) => {
+    // Check if email exist
+    Users.findOne({email: req.body.email}, (err,existingUser) => {
+        if (err) {
+            res.status(500).json({err})
+        }
+        if(!existingUser) {
+            res.status(401).json({message: "Incorrect Username"})
+        }
+        // Compare passowrd with hashed password
+        let matchedPassword = bcrypt.compareSync(req.body.password, existingUser.password)
+        if(!matchedPassword){
+            res.status(401).json({message: "Incorrect password"})
+        } 
+        
+        // Create a token
+        jwt.sign({
+            id: existingUser._id,
+            email: existingUser.email,
+            firstName: existingUser.firstName,
+            lastName: existingUser.lastName
+        }, SECRET, {expiresIn: EXPIRE_TIME},
+        (err, token) => {
+            if (err) {
+                res.status(500).json({err})
+            }else{
+                res.status(200).json({message: "Login Successful", token})
+            }
         })
     })
 }
