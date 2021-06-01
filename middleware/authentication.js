@@ -23,6 +23,7 @@ exports.authUser = (req,res,next) => {
         if (!decodedToken) {
             res.status(401).json({message: "Authorization error, Please Login"})
         }
+        req.token = decodedToken
     })
     // Move to the next function
     next()

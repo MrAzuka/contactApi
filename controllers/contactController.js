@@ -3,6 +3,7 @@ const Contact = require('../models/Contacts')
 
 exports.createContact = (req,res) => {
     Contact.create({
+        user: req.token.id,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -23,7 +24,7 @@ exports.createContact = (req,res) => {
 }
 
 exports.getAllContact = (req,res) => {
-    Contact.find({},
+    Contact.find({user: req.token.id},
     (err, allContact) => {
         if(!err){
          res.send({

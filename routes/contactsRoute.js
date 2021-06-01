@@ -4,7 +4,7 @@ const Contact = require('../models/Contacts')
 const contactController = require('../controllers/contactController')
 const {authUser} = require('../middleware/authentication')
 
-router.post('/api/contact', contactController.createContact)
+router.post('/api/contact', authUser, contactController.createContact)
 router.get('/api/contact', authUser, contactController.getAllContact)
 router.get('/api/contact/:id', authUser, contactController.getOneContact)
 router.put('/api/contact/:id', contactController.updateContact)
