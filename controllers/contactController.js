@@ -99,3 +99,20 @@ exports.deleteContact = (req,res) => {
             }
         })
 }
+
+// Route for admin
+exports.getAllAdminContact = (req,res) => {
+    Contact.find({},
+    (err, allContact) => {
+        if(!err){
+         res.send({
+             message: "All Contacts",
+             contact: allContact
+        })
+         res.status(200)
+        }else{
+         res.send({message: "Error", err})
+         res.status(500)
+        }
+    })
+}

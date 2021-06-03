@@ -15,6 +15,9 @@ connectDB()
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
+// Seed Admin into the Database
+const {seedAdmin} = require('./seeders/admin')
+seedAdmin()
 // Using Routes
 app.use('/auth', authRoutes)
 app.use(apiRoutes)

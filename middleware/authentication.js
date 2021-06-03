@@ -24,7 +24,15 @@ exports.authUser = (req,res,next) => {
             res.status(401).json({message: "Authorization error, Please Login"})
         }
         req.token = decodedToken
+        req.user = decodedToken
     })
     // Move to the next function
+    next()
+}
+
+exports.checkIsAdmin = (req,res,next) => {
+    if (req.user.role !== "admin") {
+        res.status(401).json({message: "Route restricted to admin only"})
+    }
     next()
 }

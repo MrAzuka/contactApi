@@ -45,7 +45,8 @@ exports.signupUser = (req,res) => {
                             id: newUser._id,
                             email: newUser.email,
                             firstName: newUser.firstName,
-                            lastName: newUser.lastName
+                            lastName: newUser.lastName,
+                            role: newUser.role
                         }, SECRET, {expiresIn: EXPIRE_TIME},
                         (err, token) => {
                             if (err) {
@@ -81,7 +82,8 @@ exports.loginUser = (req,res) => {
             id: existingUser._id,
             email: existingUser.email,
             firstName: existingUser.firstName,
-            lastName: existingUser.lastName
+            lastName: existingUser.lastName,
+            role: existingUser.role
         }, SECRET, {expiresIn: EXPIRE_TIME},
         (err, token) => {
             if (err) {
