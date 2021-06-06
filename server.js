@@ -3,6 +3,7 @@ require('dotenv').config()
 const {connectDB} = require('./db/connectDB')
 const apiRoutes = require('./routes/contactsRoute')
 const authRoutes = require('./routes/authRoutes')
+const adminRoutes = require('./routes/adminRoutes')
 
 // Initialise app
 const app = express()
@@ -18,8 +19,10 @@ app.use(express.urlencoded({extended: false}))
 // Seed Admin into the Database
 const {seedAdmin} = require('./seeders/admin')
 seedAdmin()
+
 // Using Routes
 app.use('/auth', authRoutes)
+app.use(adminRoutes)
 app.use(apiRoutes)
 
 // Port Listening

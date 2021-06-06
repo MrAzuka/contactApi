@@ -1,6 +1,6 @@
 const Contact = require('../models/Contacts')
 
-
+// Creates contacts
 exports.createContact = (req,res) => {
     Contact.create({
         user: req.token.id,
@@ -23,6 +23,7 @@ exports.createContact = (req,res) => {
     })
 }
 
+// Gets all contacts
 exports.getAllContact = (req,res) => {
     Contact.find({user: req.token.id},
     (err, allContact) => {
@@ -39,6 +40,7 @@ exports.getAllContact = (req,res) => {
     })
 }
 
+// Gets contact with id
 exports.getOneContact = (req,res) => {
     Contact.findById(req.params.id,
     (err, foundContact) => {
@@ -58,6 +60,7 @@ exports.getOneContact = (req,res) => {
     })
 }
 
+// Updates contact from db
 exports.updateContact = (req,res) => {
     Contact.findByIdAndUpdate(req.params.id, {
         firstName: req.body.firstName,
@@ -82,6 +85,7 @@ exports.updateContact = (req,res) => {
     })
 }
 
+// Deletes contact from db
 exports.deleteContact = (req,res) => {
     Contact.findByIdAndDelete(req.params.id, 
         (err, deletedContact) => {
@@ -100,19 +104,3 @@ exports.deleteContact = (req,res) => {
         })
 }
 
-// Route for admin
-exports.getAllAdminContact = (req,res) => {
-    Contact.find({},
-    (err, allContact) => {
-        if(!err){
-         res.send({
-             message: "All Contacts",
-             contact: allContact
-        })
-         res.status(200)
-        }else{
-         res.send({message: "Error", err})
-         res.status(500)
-        }
-    })
-}

@@ -10,7 +10,5 @@ router.get('/api/contact/:id', authUser, contactController.getOneContact)
 router.put('/api/contact/:id', authUser, contactController.updateContact)
 router.delete('/api/contact/:id', authUser, contactController.deleteContact)
 
-// For admin User only
-router.get('/api/admin/contact', authUser, checkIsAdmin, contactController.getAllAdminContact)
 
 module.exports = router
