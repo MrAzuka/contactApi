@@ -1,0 +1,22 @@
+<%- include('includes/head.ejs') %>
+
+<link rel="stylesheet" href="/public/css/forms.css">
+
+</head>
+
+<body>
+    <form method="POST" action="/auth/signup">
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" required />
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" required />
+            <label for="email">Email</label>
+            <input type="email" id="email" required />
+            <label for="password">Password</label>
+            <input type="password" id="password" required/>
+
+            <input type="submit" value="Signup"/>
+            <a href="/views/login">Already have an account</a>
+    </form>
+
+<%- include('includes/footer.ejs') %>

@@ -14,7 +14,8 @@ exports.signupUser = (req,res) => {
             res.status(500).json({err})
         }
         if(existingUser) {
-            res.status(400).json({message: "A user already has that email"})
+            // res.status(400).json({message: "A user already has that email"})
+            res.redirect("login.ejs")
         }
         // Create new user
         Users.create({
@@ -53,6 +54,7 @@ exports.signupUser = (req,res) => {
                                 res.status(500).json({err})
                             }else{
                                 res.status(200).json({message: "User Registration Successful", token})
+                                res.render("signup.ejs")
                             }
                         } )
                     })
@@ -89,8 +91,13 @@ exports.loginUser = (req,res) => {
             if (err) {
                 res.status(500).json({err})
             }else{
-                res.status(200).json({message: "Login Successful", token})
+                // res.status(200).json({message: "Login Successful", token})
+                res.render("login.ejs")
             }
         })
     })
+}
+
+exports.homePage = (req,res) => {
+    res.render("login.ejs")
 }
