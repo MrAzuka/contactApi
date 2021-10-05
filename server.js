@@ -1,5 +1,4 @@
 const express = require("express")
-const expressLayout = require('express-ejs-layouts')
 require('dotenv').config()
 const {connectDB} = require('./db/connectDB')
 const apiRoutes = require('./routes/contactsRoute')
@@ -11,16 +10,6 @@ const app = express()
 
 // Connect Database
 connectDB()
-
-// Static Files
-app.use(express.static('public'))
-app.use('/css', express.static(__dirname + 'public/css'))
-app.use('/img', express.static(__dirname + 'public/img'))
-app.use('/js', express.static(__dirname + 'public/js'))
-
-// Set Templating Engine
-app.use(expressLayout)
-app.set('view engine', 'ejs')
 
 // Middleware
 // Note: Always place your middleware before your routes.
