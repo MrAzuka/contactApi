@@ -1,14 +1,15 @@
 const {Router} = require('express')
 const router = Router()
-const Contact = require('../models/Contacts')
-const contactController = require('../controllers/contactController')
-const {authUser, checkIsAdmin} = require('../middleware/authentication')
+const {createContact, getAllContact, getOneContact, updateContact, deleteContact} = require('../controllers/contactController')
+const {authUser} = require('../middleware/authentication')
 
-router.post('/api/contact', authUser, contactController.createContact)
-router.get('/api/contact', authUser, contactController.getAllContact)
-router.get('/api/contact/:id', authUser, contactController.getOneContact)
-router.put('/api/contact/:id', authUser, contactController.updateContact)
-router.delete('/api/contact/:id', authUser, contactController.deleteContact)
+// The "authUser" function authenticates if the user exists before accessing the app
+// CRUD Api for contacts
+router.post('/api/contact', authUser, createContact)
+router.get('/api/contact', authUser, getAllContact)
+router.get('/api/contact/:id', authUser, getOneContact)
+router.put('/api/contact/:id', authUser, updateContact)
+router.delete('/api/contact/:id', authUser, deleteContact)
 
 
 module.exports = router
