@@ -2,57 +2,69 @@ const Contact = require('../models/Contacts')
 const Users = require('../models/Users')
 
 // Allows admin view all contacts
-exports.getAllAdminContact = (req,res) => {
-    Contact.find({},
-    (err, allContact) => {
-        if(!err){
+exports.getAllAdminContact = async (req,res) => {
+    try{
+        const getAllContact = await Contact.find({})
+    
+        if(getAllContact){
          res.send({
              message: "All Contacts",
-             contact: allContact
+             contact: getAllContact
         })
          res.status(200)
-        }else{
-         res.send({message: "Error", err})
-         res.status(500)
         }
-    })
+    } catch (err) {
+        res.send({message: "Error", err})
+        res.status(500)
+    }   
 }
 
 // Gets all Users
 exports.getAllUsers = (req,res) => {
-    Users.find({},
-    (err, allUsers) => {
-        if(!err){
-         res.send({
-             message: "All Users",
-             contact: allUsers
-        })
-         res.status(200)
-        }else{
-         res.send({message: "Error", err})
-         res.status(500)
+    try{
+        const getAllUser = await Users.find({})
+        
+        if (!getAllUser){
+            res.send({
+                message: "No user found"
+            })
+            res.status(404)
         }
-    })
+
+        res.send({
+            message: "Users found",
+            User: getAllUser
+        })
+        res.status(200)
+
+    } catch (err){
+        res.send({message: "Error", err})
+        res.status(500)
+    }
 }
 
 // Gets User with id
-exports.getOneUser = (req,res) => {
-    Users.findOne({email: req.params.email},
-    (err, foundUser) => {
-        if(!err){
-         res.send({
-             message: "User Found",
-             User: foundUser
-        })
-         res.status(200)
-        }else if(req.params.id != foundUser){
-            res.send({message: "User not found"})
+exports.getOneUser = async (req,res) => {
+    try{
+        const getOneUser = await Users.findOne({email: req.params.email})
+        
+        if (!getOneUser){
+            res.send({
+                message: "User with id doesn't exist"
+            })
             res.status(404)
-        }else{
-         res.send({message: "Error", err})
-         res.status(500)
         }
-    })
+
+        res.send({
+            message: "User found",
+            User: getOneUser
+        })
+        res.status(200)
+
+    } catch (err){
+        res.send({message: "Error", err})
+        res.status(500)
+    }
 }
 
 // Updates User from db

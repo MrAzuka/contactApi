@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 require('dotenv').config()
 
-const {SECRET, EXPIRE_TIME} = process.env
+const {JWT_SECRET, EXPIRE_TIME} = process.env
 
 
 exports.signupUser = (req,res) => {
@@ -48,7 +48,7 @@ exports.signupUser = (req,res) => {
                             firstName: newUser.firstName,
                             lastName: newUser.lastName,
                             role: newUser.role
-                        }, SECRET, {expiresIn: EXPIRE_TIME},
+                        }, JWT_SECRET, {expiresIn: EXPIRE_TIME},
                         (err, token) => {
                             if (err) {
                                 res.status(500).json({err})
@@ -86,7 +86,7 @@ exports.loginUser = (req,res) => {
             firstName: existingUser.firstName,
             lastName: existingUser.lastName,
             role: existingUser.role
-        }, SECRET, {expiresIn: EXPIRE_TIME},
+        }, JWT_SECRET, {expiresIn: EXPIRE_TIME},
         (err, token) => {
             if (err) {
                 res.status(500).json({err})

@@ -12,7 +12,7 @@ exports.connectDB = async ()=> {
         })
         console.log("Database Connected")
     } catch (error) {
-        console.error(error.message)
-        process.exit(1)
+        console.log(error.message)
+        // process.exit(1)
     }
 }
