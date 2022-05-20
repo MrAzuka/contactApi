@@ -24,10 +24,13 @@
     "csurf": "^1.11.0",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
+    "express-rate-limit": "^6.4.0",
     "helmet": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.9",
     "morgan": "^1.10.0",
+    "passport": "^0.5.3",
+    "passport-google-oauth2": "^0.2.0",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {

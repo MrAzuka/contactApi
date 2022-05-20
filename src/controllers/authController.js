@@ -93,3 +93,15 @@ exports.loginUser = async (req, res) => {
         res.status(500)
     }
 }
+
+exports.googleSignin = (passport) => {
+    return passport.authenticate("google", { scope: ["email", "profile"] });
+}
+
+exports.googleSigninCallback = (passport) => {
+    return passport.authenticate("google", {
+        successRedirect: "/api/v2/contact/",
+        failureRedirect: "/api/v2/auth/login",
+        failureFlash: true,
+    });
+}
