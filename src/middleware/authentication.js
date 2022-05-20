@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const {verifyToken} = require('../utils/token')
 require('dotenv').config()
 const {JWT_SECRET} = process.env
 
@@ -16,17 +17,7 @@ exports.authUser = (req,res,next) => {
     // Authenticate the token with jwt
     let token = splitHeader[1]
 
-    jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
-        if (err){
-            res.status(500).json({err})
-        }
-        if (!decodedToken) {
-            res.status(401).json({message: "Authorization error, Please Login"})
-        }
-        // made the decoded token global
-        req.token = decodedToken
-        req.user = decodedToken
-    })
+   verifyToken(token)
     // Move to the next function
     next()
 }

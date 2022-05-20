@@ -1,31 +1,23 @@
+require('dotenv').config()
 const express = require("express")
 const morgan = require("morgan")
 const helmet = require("helmet")
 const xss = require("xss-clean")
 const cors = require("cors")
-const path = require("path")
-const expressLayout = require('express-ejs-layouts')
-require('dotenv').config()
-const {connectDB} = require('./src/db/connectDB')
-const apiRoutes = require('./src/routes/contactsRoute')
+const {connectToDB} = require('./src/utils/connectToDB')
+const indexRoutes = require('./src/routes/indexRoutes')
+const contactRoutes = require('./src/routes/contactsRoutes')
 const authRoutes = require('./src/routes/authRoutes')
 const adminRoutes = require('./src/routes/adminRoutes')
+const {seedAdmin} = require('./src/seeders/admin')
+
 
 // Initialise app
 const app = express()
 
 // Connect Database
-connectDB()
+connectToDB()
 
-// Static Files
-app.use(express.static('public'))
-app.use('/css', express.static(__dirname + 'public/css'))
-app.use('/img', express.static(__dirname + 'public/img'))
-app.use('/js', express.static(__dirname + 'public/js'))
-
-// Set Templating Engine
-app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, 'src', 'views'))
 
 // Middleware
 // Note: Always place your middleware before your routes.
@@ -38,13 +30,13 @@ app.use(helmet())
 
 
 // Seed Admin into the Database
-const {seedAdmin} = require('./src/seeders/admin')
 seedAdmin()
 
 // Using Routes
-app.use('/auth', authRoutes)
-app.use(adminRoutes)
-app.use(apiRoutes)
+app.use(indexRoutes)
+app.use('/api/v2/auth', authRoutes)
+app.use('/api/v2/admin',adminRoutes)
+app.use('/api/v2/contact',contactRoutes)
 
 // Port Listening
 const port = process.env.PORT || 5000

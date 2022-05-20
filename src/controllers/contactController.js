@@ -1,106 +1,129 @@
 const Contact = require('../models/Contacts')
 
 // Creates contacts
-exports.createContact = (req,res) => {
-    Contact.create({
-        user: req.token.id,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        mobile: req.body.mobile,
-        gender: req.body.gender
-    }, (err, newContact) => {
-        if(!err){
-         res.send({
-             message: "New contact created",
-             contact: newContact
+exports.createContact = async (req, res) => {
+    try {
+        const createNewContact = await Contact.create({
+            user: req.token.id,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            mobile: req.body.mobile,
+            gender: req.body.gender
         })
-         res.status(200)
-        }else{
-         res.send({message: "Error", err})
-         res.status(500)
-        }
-    })
+
+        res.send({
+            message: "New contact created",
+            contact: createNewContact
+        })
+        res.status(200)
+
+    } catch (err) {
+        res.send({
+            message: "Error",
+            err
+        })
+        res.status(500)
+    }
 }
 
 // Gets all contacts
-exports.getAllContact = (req,res) => {
-    Contact.find({user: req.token.id},
-    (err, allContact) => {
-        if(!err){
-         res.send({
-             message: "All Contacts",
-             contact: allContact
+exports.getAllContact = async (req, res) => {
+    try {
+        const findAllContact = await Contact.find({
+            user: req.token.id
         })
-         res.status(200)
-        }else{
-         res.send({message: "Error", err})
-         res.status(500)
-        }
-    })
+
+        res.send({
+            message: "All Contacts",
+            contact: findAllContact
+        })
+        res.status(200)
+    } catch (err) {
+        res.send({
+            message: "Error",
+            err
+        })
+        res.status(500)
+    }
 }
 
 // Gets contact with id
-exports.getOneContact = (req,res) => {
-    Contact.findById(req.params.id,
-    (err, foundContact) => {
-        if(!err){
-         res.send({
-             message: "Contact Found",
-             contact: foundContact
-        })
-         res.status(200)
-        }else if(req.params.id != foundContact){
-            res.send({message: "Contact not found"})
+exports.getOneContact = async (req, res) => {
+    try {
+        const findOneContact = await Contact.findById(req.params.id)
+
+        if (req.params.id != findOneContact) {
+            res.send({
+                message: "Contact not found"
+            })
             res.status(404)
-        }else{
-         res.send({message: "Error", err})
-         res.status(500)
         }
-    })
+
+        res.send({
+            message: "Contact Found",
+            contact: findOneContact
+        })
+    } catch (err) {
+        res.send({
+            message: "Error",
+            err
+        })
+        res.status(500)
+    }
 }
 
 // Updates contact from db
-exports.updateContact = (req,res) => {
-    Contact.findByIdAndUpdate(req.params.id, {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        mobile: req.body.mobile,
-        gender: req.body.gender
-    },  (err, updatedContact) => {
-        if(!err){
-         res.send({
-             message: "Contact update successful",
-             contact: updatedContact
+exports.updateContact = async (req, res) => {
+    try {
+        const updateOneContact = await Contact.findByIdAndUpdate(req.params.id, {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            mobile: req.body.mobile,
+            gender: req.body.gender
         })
-         res.status(200)
-        }else if(req.params.id != updatedContact){
-            res.send({message: "Contact not found, err"})
+
+        if (req.params.id != updateOneContact) {
+            res.send({
+                message: "Contact not found, err"
+            })
             res.status(404)
-        }else{
-         res.send({message: "Error", err})
-         res.status(500)
         }
-    })
+
+        res.send({
+            message: "Contact update successful",
+            contact: updateOneContact
+        })
+        res.status(200)
+    } catch (err) {
+        res.send({
+            message: "Error",
+            err
+        })
+        res.status(500)
+    }
 }
 
 // Deletes contact from db
-exports.deleteContact = (req,res) => {
-    Contact.findByIdAndDelete(req.params.id, 
-        (err, deletedContact) => {
-            if(!err){
-             res.send({
-                 message: "Contact deletion successful"
+exports.deleteContact = async (req, res) => {
+    try {
+        const deleteOneContact = await Contact.findByIdAndDelete(req.params.id)
+        if (req.params.id != deleteOneContact) {
+            res.send({
+                message: "Contact not found, err"
             })
-             res.status(200)
-            }else if(req.params.id != deletedContact){
-                res.send({message: "Contact not found, err"})
-                res.status(404)
-            }else{
-             res.send({message: "Error", err})
-             res.status(500)
-            }
+            res.status(404)
+        }
+        res.send({
+            message: "Contact deletion successful"
         })
+        res.status(200)
+    } catch (err) {
+        res.send({
+            message: "Error",
+            err
+        })
+        res.status(500)
+    }
 }
-

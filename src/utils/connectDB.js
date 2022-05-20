@@ -2,7 +2,7 @@ const {connect} = require('mongoose')
 require('dotenv').config()
 const {MONGO_URI} = process.env
 
-exports.connectDB = async ()=> {
+exports.connectToDB = async ()=> {
     try {
         await connect(MONGO_URI, {
             useNewUrlParser: true,
@@ -13,6 +13,6 @@ exports.connectDB = async ()=> {
         console.log("Database Connected")
     } catch (error) {
         console.log(error.message)
-        // process.exit(1)
+        process.exit(1)
     }
 }
