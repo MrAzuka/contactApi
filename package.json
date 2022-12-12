@@ -1,6 +1,6 @@
 {
   "name": "contactapi",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -20,15 +20,23 @@
   "homepage": "https://github.com/MrAzuka/contactApi#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "csurf": "^1.11.0",
     "dotenv": "^9.0.2",
-    "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "express-rate-limit": "^6.4.0",
+    "helmet": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.9"
+    "mongoose": "^5.12.9",
+    "morgan": "^1.10.0",
+    "passport": "^0.5.3",
+    "passport-google-oauth2": "^0.2.0",
+    "xss-clean": "^0.1.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "jest": "^28.1.0",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.2.3"
   },
   "keywords": []
 }

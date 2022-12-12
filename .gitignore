@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# TODO list
+TODO
+
+# GOOGLE_CLIENT_ID
+contactAPP_GOOGLE_CLIENT_ID.json

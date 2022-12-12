@@ -1,4 +1,4 @@
-const {Schema, model} = require('mongoose')
+const { Schema, model } = require('mongoose')
 
 const contactSchema = new Schema(
     {
@@ -14,8 +14,7 @@ const contactSchema = new Schema(
             // required: true
         },
         email: {
-            type: String,
-            unique: true
+            type: String
         },
         mobile: {
             type: String,
