@@ -1,4 +1,4 @@
-const Users = require('../models/Users')
+const Users = require('../models/user_Model')
 const {
     createToken
 } = require('../utils/token')
@@ -12,7 +12,7 @@ const {
 } = process.env
 
 
-exports.signupUser = async (req, res) => {
+export const signupUser = async (req, res) => {
 
     try {
         // fetch email
@@ -45,16 +45,15 @@ exports.signupUser = async (req, res) => {
         }
 
     } catch (err) {
-        res.send({
+        res.status(400).json({
             message: "Error",
             err
         })
-        res.status(500)
     }
 
 }
 
-exports.loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
     try {
         // fetch email
         // check if email already exist
@@ -79,26 +78,23 @@ exports.loginUser = async (req, res) => {
         // Create Token 
         const token = createToken(findUser.email)
 
-        res.send({
+        res.status(200).json({
             message: "Login Successful",
             Token: token
         })
-        res.status(200)
-
     } catch (err) {
-        res.send({
+        res.status(400).json({
             message: "Error",
             err
         })
-        res.status(500)
     }
 }
 
-exports.googleSignin = (passport) => {
+export const googleSignin = (passport) => {
     return passport.authenticate("google", { scope: ["email", "profile"] });
 }
 
-exports.googleSigninCallback = (passport) => {
+export const googleSigninCallback = (passport) => {
     return passport.authenticate("google", {
         successRedirect: "/api/v2/contact/",
         failureRedirect: "/api/v2/auth/login",

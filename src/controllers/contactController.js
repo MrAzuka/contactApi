@@ -1,8 +1,15 @@
-const Contact = require('../models/Contacts')
+const Contact = require('../models/contact_Model')
 
 // Creates contacts
-exports.createContact = async (req, res) => {
+export const createContact = async (req, res) => {
     try {
+        // Check if mobile number already exists
+        const checkMobile = await Contact.findOne({ user: req.token.id, mobile: req.body.mobile })
+        if (checkMobile) {
+            res.status(401).json({
+                message: "Phone number already exists"
+            })
+        }
         const createNewContact = await Contact.create({
             user: req.token.id,
             firstName: req.body.firstName,
@@ -12,69 +19,62 @@ exports.createContact = async (req, res) => {
             gender: req.body.gender
         })
 
-        res.send({
+        res.status(200).json({
             message: "New contact created",
             contact: createNewContact
         })
-        res.status(200)
 
     } catch (err) {
-        res.send({
+        res.status(500).json({
             message: "Error",
             err
         })
-        res.status(500)
     }
 }
 
 // Gets all contacts
-exports.getAllContact = async (req, res) => {
+export const getAllContact = async (req, res) => {
     try {
         const findAllContact = await Contact.find({
             user: req.token.id
         })
 
-        res.send({
+        res.status(200).json({
             message: "All Contacts",
             contact: findAllContact
         })
-        res.status(200)
     } catch (err) {
-        res.send({
+        res.status(400).json({
             message: "Error",
             err
         })
-        res.status(500)
     }
 }
 
 // Gets contact with id
-exports.getOneContact = async (req, res) => {
+export const getOneContact = async (req, res) => {
     try {
         const findOneContact = await Contact.findById(req.params.id)
 
         if (req.params.id != findOneContact) {
-            res.send({
+            res.status(404).json({
                 message: "Contact not found"
             })
-            res.status(404)
         }
-
-        res.send({
+        res.status(200).json({
             message: "Contact Found",
             contact: findOneContact
         })
     } catch (err) {
-        res.send({
+        res.status(400).json({
             message: "Error",
             err
         })
-        res.status(500)
     }
 }
 
 // Updates contact from db
-exports.updateContact = async (req, res) => {
+export const updateContact = async (req, res) => {
     try {
         const updateOneContact = await Contact.findByIdAndUpdate(req.params.id, {
             firstName: req.body.firstName,
@@ -85,45 +85,39 @@ exports.updateContact = async (req, res) => {
         })
 
         if (req.params.id != updateOneContact) {
-            res.send({
+            res.status(404).json({
                 message: "Contact not found, err"
             })
-            res.status(404)
         }
 
-        res.send({
+        res.status(200).json({
             message: "Contact update successful",
             contact: updateOneContact
         })
-        res.status(200)
     } catch (err) {
-        res.send({
+        res.status(400).json({
             message: "Error",
             err
         })
-        res.status(500)
     }
 }
 
 // Deletes contact from db
-exports.deleteContact = async (req, res) => {
+export const deleteContact = async (req, res) => {
     try {
         const deleteOneContact = await Contact.findByIdAndDelete(req.params.id)
         if (req.params.id != deleteOneContact) {
-            res.send({
+            res.status(404).json({
                 message: "Contact not found, err"
             })
-            res.status(404)
         }
-        res.send({
+        res.status(200).json({
             message: "Contact deletion successful"
         })
-        res.status(200)
     } catch (err) {
-        res.send({
+        res.status(400).json({
             message: "Error",
             err
         })
-        res.status(500)
     }
 }
